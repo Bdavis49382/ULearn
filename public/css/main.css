@@ -1,0 +1,23 @@
+/* Global Rules */
+
+html {
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: aliceblue;
+  color: black;
+  text-align: center;
+}
+
+.big-button {
+  background-color: rgba(8, 187, 231, 0.789);
+  text-decoration: none;
+  color: black;
+  padding: .5rem 1rem;
+  box-shadow: 1px 1px rgb(7, 161, 200);
+  border-radius: 2px;
+  border: 0px;
+  cursor: pointer;
+}
+
