@@ -1,4 +1,4 @@
-<h1>Welcome Mr. _!</h1>
+<h1>Welcome Mr./Ms. <%= userInfo?.last_name %>!</h1>
 <section>
     <h2>Select Course</h2>
     <ul>
@@ -7,4 +7,6 @@
         <li><a href="course/dashboard/3">Course 3</a></li>
     </ul>
 </section>
-<a href="/admin" class="big-button">View Admin Portal</a>
+<% if (userInfo.role_id == 3) { %>
+    <a href="/admin" class="big-button">View Admin Portal</a>
+<% } %>

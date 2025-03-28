@@ -5,10 +5,12 @@ const mode = process.env.NODE_ENV || 'production';
 
 const configureNodeEnvironment = async (req, res, next) => {
     res.locals.isDevMode = mode.includes('dev');
-    res.locals.navHTML = await getNav();
+    res.locals.navHTML = await getNav(req.session.user != undefined);
     res.locals.port = port;
     res.locals.scripts = [];
     res.locals.styles = [];
+    res.locals.userInfo = req.session.user;
+    res.locals.requiredPermissions = [undefined];
     // Add things only needed in development mode
     if (res.locals.isDevMode) {
         // Add livereload script to the page

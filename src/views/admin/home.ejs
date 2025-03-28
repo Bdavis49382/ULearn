@@ -1,26 +1,18 @@
-<h1>Welcome Dr. _!</h1>
-<section>
-    <h2>Administrators</h2>
-    <ul>
-        <li>Admin x</li>
-        <li>Admin y</li>
-    </ul>
-    <button>Get Code For New Admin Account</button>
-</section>
-<section>
-    <h2>Instructors</h2>
-    <ul>
-        <li>Teacher x</li>
-        <li>Teacher y</li>
-    </ul>
-    <button>Get Code For New Instructor Account</button>
-</section>
-<section>
-    <h2>Students</h2>
-    <ul>
-        <li>Student x</li>
-        <li>Student y</li>
-    </ul>
-    <button>Get Code For New Student Account</button>
-</section>
-<a href="/teacher" class="big-button">View Teacher Portal</a>
+<h1>Welcome Mr./Ms. <%= userInfo?.last_name %>!</h1>
+<% roles.forEach(role => { %>
+    <section>
+        <h2><%= role.role_name %></h2>
+        <ul>
+            <% users.filter(user => user.role_id == role.id).forEach(user => { %>
+                <p><%= user.given_names %> <%= user.last_name %> <%= user.email %></p>
+            <% }); %>
+            <% codes.filter(code => code.role_id == role.id && !code.used).forEach(code => { %>
+            <p>Access Code: <%= code.access_code %> Unused</p>
+            <% }); %>
+        </ul>
+        <a href="/admin/addCode/<%= organization_id %>/<%= role.id%>" class="big-button">Get Code For New Admin Account</a>
+    </section>
+<% }); %>
+<div style="margin-top:100px">
+    <a href="/teacher" class="big-button">View Teacher Portal</a>
+</div>

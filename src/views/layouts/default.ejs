@@ -8,7 +8,18 @@
         <%- include('../partials/header') %>
     </header>
     <main>
-        <%- body %>
+        <div id="message-area">
+            <% if (flash) { %>
+                <% flash.forEach((obj) => { %>
+                    <%- include('../partials/flash', { type: obj.type, message: obj.message }) %>
+                <% }); %>
+            <% } %>
+        </div>
+        <% if (requiredPermissions.includes(userInfo?.role_id)) { %>
+            <%- body %>
+        <% } else {%>
+            <p>You do not have the right account type to view this page or have not logged in.</p>
+        <% } %>
     </main>
     <footer>
         <%- include('../partials/footer') %>

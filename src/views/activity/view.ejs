@@ -1,1 +1,8 @@
 <h1>Activity <%= id %></h1>
+<% if (sectionId){ %>
+    <p>Texboxes and/or multiple choice</p>
+    <a href="/activity/view/<%= id %>/<%= Number(sectionId) + 1 %>" class="big-button">Go to Next Section </a>
+<% }else{ %>
+    <p>Explanation of activity</p>
+    <a href="/activity/view/<%= id %>/1" class="big-button">Start Activity</a>
+<% } %>

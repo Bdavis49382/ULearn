@@ -1,6 +1,7 @@
 /**
  * Imports
  */
+import session from "express-session";
 import configNodeEnv from "./src/middleware/node-env.js";
 import express from "express";
 import fileUploads from "./src/middleware/file-uploads.js";
@@ -8,11 +9,17 @@ import homeRoute from "./src/routes/index.js";
 import authRoute from "./src/routes/auth/auth.js";
 import activityRoute from "./src/routes/activity/activity.js";
 import courseRoute from "./src/routes/course/course.js";
+import adminRoute from "./src/routes/admin/admin.js";
 import layouts from "./src/middleware/layouts.js";
 import path from "path";
 import { configureStaticPaths, setupWebSocket } from "./src/utils/index.js";
 import { fileURLToPath } from "url";
-import { setupDatabase } from "./src/models/index.js";
+import { setupDatabase} from "./src/models/index.js";
+
+import pgSession from 'connect-pg-simple';
+const PostgresStore = pgSession(session);
+import dbClient from "./src/models/index.js";
+import flashMessages from "./src/middleware/flash-messages.js";
 
 /**
  * Global Variables
@@ -28,11 +35,31 @@ const port = process.env.PORT;
  */
 const app = express();
 
+// Configure session middleware
+app.use(session({
+    store: new PostgresStore({
+        pool: dbClient, // Use your PostgreSQL pool
+        tableName: 'sessions', // Table name for storing sessions
+        createTableIfMissing: true // Creates table if it doesn't exist
+    }),
+    secret: process.env.SESSION_SECRET || "default-secret",
+    resave: false,
+    saveUninitialized: true,
+    name: "sessionId",
+    cookie: {
+        secure: false, // Set to `true` in production with HTTPS
+        httpOnly: true, // Prevents client-side access to the cookie
+        maxAge: 30 * 24 * 60 * 60 * 1000 // 30 days in milliseconds
+    }
+}));
+
 // Configure the application based on environment settings
 app.use(configNodeEnv);
 
 // Configure static paths (public dirs) for the Express application
 configureStaticPaths(app);
+
+app.use(flashMessages);
 
 // Set EJS as the view engine and record the location of the views directory
 app.set("view engine", "ejs");
@@ -60,6 +87,7 @@ app.use("/", homeRoute);
 app.use("/auth/", authRoute);
 app.use("/activity/", activityRoute);
 app.use("/course/", courseRoute);
+app.use("/admin/", adminRoute);
 
 /**
  * Start the server

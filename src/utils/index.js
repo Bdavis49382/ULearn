@@ -46,8 +46,13 @@ const configureStaticPaths = (app) => {
  *
  * @returns {string} The navigation menu.
  */
-const getNav = () => {
-    return 'This feature is not implemented yet.';
+const getNav = (loggedIn) => {
+    const html = `
+    <nav>
+        ${loggedIn ? '<a href="/auth/logout">Logout</a>' : '<a href="/auth/login">Login</a>'}
+    </nav>
+    `
+    return html;
 }
 
 export async function setupWebSocket(port) {

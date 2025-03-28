@@ -1,23 +1,80 @@
--- Create the users table if it doesn't exist
+BEGIN;
+
+
 CREATE TABLE IF NOT EXISTS public."Users"
 (
     id bigserial,
-    "GivenNames" character varying(255) NOT NULL,
-    "LastName" character varying(255) NOT NULL,
-    "Role" character varying(255) NOT NULL,
+    given_names character varying(255) NOT NULL,
+    last_name character varying(255) NOT NULL,
+    role_id bigserial NOT NULL,
     email character varying(255) NOT NULL,
     password character varying(255) NOT NULL,
+    organization_id bigserial NOT NULL,
     PRIMARY KEY (id)
 );
- 
--- -- Insert initial categories
--- INSERT OR IGNORE INTO category (category_id, category_name) VALUES
--- (1, 'Strategy'),
--- (2, 'Party');
- 
--- -- Insert initial games
--- INSERT OR IGNORE INTO games (game_id, game_name, game_description, category_id, image_path) VALUES
--- (1, 'Catan', 'A popular resource-trading and city-building game.', 1, '/images/games/catan.jpg'),
--- (2, 'Risk', 'A world domination game of strategy and conquest.', 1, '/images/games/risk.jpg'),
--- (3, 'Uno', 'A fast-paced card game of matching colors and numbers.', 2, '/images/games/uno.jpg'),
--- (4, 'Apples to Apples', 'A fun word association game perfect for family and friends.', 2, '/images/games/apples-to-apples.jpg');
+
+CREATE TABLE IF NOT EXISTS public."Codes"
+(
+    access_code bigserial NOT NULL,
+    role_id bigserial NOT NULL,
+    used boolean NOT NULL DEFAULT false,
+    organization_id bigserial NOT NULL,
+    PRIMARY KEY (access_code)
+);
+
+CREATE TABLE IF NOT EXISTS public."Organizations"
+(
+    id bigserial NOT NULL,
+    name character varying(255),
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE IF NOT EXISTS public."Roles"
+(
+    id bigserial,
+    role_name character varying(255) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+ALTER TABLE IF EXISTS public."Users"
+    ADD CONSTRAINT users_organizations_fk FOREIGN KEY (organization_id)
+    REFERENCES public."Organizations" (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public."Users"
+    ADD CONSTRAINT users_roles_fk FOREIGN KEY (role_id)
+    REFERENCES public."Roles" (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public."Codes"
+    ADD CONSTRAINT code_org_fk FOREIGN KEY (organization_id)
+    REFERENCES public."Organizations" (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE CASCADE
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS public."Codes"
+    ADD CONSTRAINT code_roles_fk FOREIGN KEY (role_id)
+    REFERENCES public."Roles" (id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+INSERT INTO public."Organizations"(
+	name)
+	VALUES ('Fake School');
+
+INSERT INTO public."Roles"(
+	role_name)
+	VALUES ('Student'),
+	('Teacher'),
+	('Administrator');
+    
+END;
