@@ -1,5 +1,5 @@
 import dbClient from "../index.js";
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 
 export async function register(code, firstName, lastName, email, password) {
     try {
