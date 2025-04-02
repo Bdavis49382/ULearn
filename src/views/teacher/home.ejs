@@ -1,10 +1,14 @@
 <h1>Welcome Mr./Ms. <%= userInfo?.last_name %>!</h1>
 <section>
-    <h2>Select Course</h2>
+    <h2>Select Class</h2>
+
     <ul>
-        <li><a href="course/dashboard/1">Course 1</a></li>
-        <li><a href="course/dashboard/2">Course 2</a></li>
-        <li><a href="course/dashboard/3">Course 3</a></li>
+        <% classes.forEach(c => { %>
+            <li><a href="class/dashboard/<%= c.id  %>"><%= c.name %></a></li>
+        <% }) %>
+        <br>
+        <a href="/class/createClass/" class="big-button">Create Class</a>
+        <a href="/class/createCourse/" class="big-button">Create Course</a>
     </ul>
 </section>
 <% if (userInfo.role_id == 3) { %>

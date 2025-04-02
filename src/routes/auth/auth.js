@@ -31,9 +31,8 @@ router.post('/register', async (req, res) => {
     try {
         const {accountCode, givenNames, lastName, email, password} = req.body;
         const {role_id, organization_id} = await register(accountCode, givenNames, lastName, email, password);
-        req.session.user = {given_names: givenNames, last_name: lastName, role_id, organization_id};
-        req.flash('success', 'account created and logged in.');
-        res.redirect('/');
+        req.flash('success', 'account created.');
+        res.redirect('/auth/login');
     } catch (error) {
         req.flash('error','account creation failed');
         res.redirect('/auth/register');

@@ -10,7 +10,7 @@
             <p>Access Code: <%= code.access_code %> Unused</p>
             <% }); %>
         </ul>
-        <a href="/admin/addCode/<%= organization_id %>/<%= role.id%>" class="big-button">Get Code For New Admin Account</a>
+        <a href="/admin/addCode/<%= organization_id %>/<%= role.id%>" class="big-button">Get Code For New <%= role.role_name  %> Account</a>
     </section>
 <% }); %>
 <div style="margin-top:100px">

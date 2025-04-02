@@ -8,14 +8,13 @@ import fileUploads from "./src/middleware/file-uploads.js";
 import homeRoute from "./src/routes/index.js";
 import authRoute from "./src/routes/auth/auth.js";
 import activityRoute from "./src/routes/activity/activity.js";
-import courseRoute from "./src/routes/course/course.js";
+import classRoute from "./src/routes/classes/classes.js";
 import adminRoute from "./src/routes/admin/admin.js";
 import layouts from "./src/middleware/layouts.js";
 import path from "path";
 import { configureStaticPaths, setupWebSocket } from "./src/utils/index.js";
 import { fileURLToPath } from "url";
 import { setupDatabase} from "./src/models/index.js";
-
 import pgSession from 'connect-pg-simple';
 const PostgresStore = pgSession(session);
 import dbClient from "./src/models/index.js";
@@ -86,7 +85,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", homeRoute);
 app.use("/auth/", authRoute);
 app.use("/activity/", activityRoute);
-app.use("/course/", courseRoute);
+app.use("/class/", classRoute);
 app.use("/admin/", adminRoute);
 
 /**
@@ -100,6 +99,9 @@ if (mode.includes("dev")) {
 
 // Start the Express server
 app.listen(port, async () => {
-//   await setupDatabase();
+    const restart = false;
+    if (restart) {
+        await setupDatabase();
+    }
   console.log(`Server running on http://127.0.0.1:${port}`);
 });

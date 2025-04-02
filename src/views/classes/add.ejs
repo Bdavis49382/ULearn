@@ -1,0 +1,30 @@
+<h1>Available Courses</h1>
+
+<form action="" method="post">
+    <table>
+        <thead>
+            <th>Course Name</th>
+            <th>Class Name</th>
+            <th>Teacher Name</th>
+            <th>Description</th>
+            <th>Add</th>
+            <th>Drop</th>
+        </thead>
+        <% classes.forEach( c => { %>
+            <tr>
+                <td><%= c.course_name %></td>
+                <td><%= c.name %></td>
+                <td><%= c.teacher_name %></td>
+                <td><%= c.description %></td>
+                <% if (studentClasses.map(sc => sc.id).includes(c.id)){ %>
+                    <td><input type="radio" name="class_id" value="<%= c.id %>" disabled></td>
+                    <td><input type="radio" name="drop_id" value="<%= c.id %>"></td>
+                <% } else { %>
+                    <td><input type="radio" name="class_id" value="<%= c.id %>"></td>
+                    <td><input type="radio" name="drop_id" value="<%= c.id %>" disabled></td>
+                <% } %>
+            </tr>
+        <% }) %>
+    </table>
+    <button>Apply Changes</button>
+</form>

@@ -2,6 +2,8 @@ import pg from 'pg';
 import fs from 'fs';
 
 const { Pool } = pg;
+import { register } from './auth/auth.js';
+import { addCode } from './codes/codes.js';
 
 /**
  * Instead of connecting to your pool with all the individual settings you can
@@ -52,6 +54,10 @@ if (process.env.NODE_ENV.toLowerCase().includes('dev')) {
 export const setupDatabase = async () => {
     const sql = fs.readFileSync('src/models/setup.sql', 'utf-8');
     await dbClient.query(sql);
+
+    // Create an admin account
+    const code = await addCode(3, 1);
+    await register(code, 'John','Smith','fake3@w.com','123456');
 };
 
 // Test function that can be used to test the database

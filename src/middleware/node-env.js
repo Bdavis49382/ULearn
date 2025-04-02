@@ -9,7 +9,7 @@ const configureNodeEnvironment = async (req, res, next) => {
     res.locals.port = port;
     res.locals.scripts = [];
     res.locals.styles = [];
-    res.locals.userInfo = req.session.user;
+    res.locals.userInfo = await req.session.user;
     res.locals.requiredPermissions = [undefined];
     // Add things only needed in development mode
     if (res.locals.isDevMode) {

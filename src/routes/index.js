@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { getClasses, getClassesForStudent } from '../models/classes/classes.js';
 
 const router = Router();
  
@@ -28,16 +29,18 @@ router.get('/', async (req, res) => {
 
 router.get('/student', async (req, res) => {
     res.locals.requiredPermissions = ['1'];
-    res.render('student/home', { title: 'Student Home'});
+    const classes = await getClassesForStudent(res.locals.userInfo.id);
+    res.render('student/home', { title: 'Student Home', classes});
 })
 router.get('/student/profile/:id', async (req,res) => {
     res.locals.requiredPermissions = ['1','2','3'];
-    res.render('student/profile', { title: 'Student Profile', id: req.params.id});
+    res.render('student/profile', { title: 'Student Profile', id:req.params.id});
 })
 
 router.get('/teacher', async (req, res) => {
     res.locals.requiredPermissions = ['2','3'];
-    res.render('teacher/home', { title: 'Teacher Home'})
+    const classes = await getClasses(res.locals.userInfo.id);
+    res.render('teacher/home', { title: 'Teacher Home', classes})
 })
 
 export default router;
