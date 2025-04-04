@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { login, register } from '../../models/auth/auth.js';
+import { registrationValidation } from '../../middleware/validation.js';
+import { validationResult } from 'express-validator';
 
 const router = Router();
  
@@ -27,10 +29,20 @@ router.get('/register', async (req, res) => {
     res.render('auth/register', {title: 'Register Page'});
 })
 
-router.post('/register', async (req, res) => {
+router.post('/register', registrationValidation, async (req, res) => {
+    // Check if there are any validation errors
+    const results = validationResult(req);
+    if (results.errors.length > 0) {
+        results.errors.forEach((error) => {
+        req.flash("error", error.msg);
+        });
+        res.redirect("/auth/register");
+        return;
+    }
+
     try {
         const {accountCode, givenNames, lastName, email, password} = req.body;
-        const {role_id, organization_id} = await register(accountCode, givenNames, lastName, email, password);
+        await register(accountCode, givenNames, lastName, email, password);
         req.flash('success', 'account created.');
         res.redirect('/auth/login');
     } catch (error) {
