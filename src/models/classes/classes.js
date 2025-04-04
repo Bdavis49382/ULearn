@@ -3,8 +3,9 @@ import dbClient from "../index.js";
 export async function getClasses(teacher_id) {
     try {
             const query = `
-                SELECT * FROM public."Classes"
-                INNER JOIN public."FacultyAssignment" AS f ON "Classes".id = f.class_id
+                SELECT c.id, c.name, co.name AS course_name FROM public."Classes" AS c
+                INNER JOIN public."FacultyAssignment" AS f ON c.id = f.class_id
+                INNER JOIN public."Courses" AS co ON co.id = c.course_id
                 WHERE f.teacher_id = ${teacher_id}
             `;
             return (await dbClient.query(query)).rows;

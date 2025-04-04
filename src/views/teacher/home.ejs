@@ -4,7 +4,7 @@
 
     <ul>
         <% classes.forEach(c => { %>
-            <li><a href="class/dashboard/<%= c.id  %>"><%= c.name %></a></li>
+            <li><a href="class/dashboard/<%= c.id  %>"><%= c.course_name %> <%= c.name %></a></li>
         <% }) %>
         <br>
         <a href="/class/createClass/" class="big-button">Create Class</a>
