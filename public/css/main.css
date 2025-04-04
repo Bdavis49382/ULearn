@@ -2,7 +2,10 @@
 :root {
   --blue: rgba(8, 187, 231, 0.789);
   --green: rgba(15, 116, 8, 0.742);
+  --red: rgba(82, 0, 0, 0.763);
   --shadow: rgb(7, 161, 200);
+  --gray: rgba(187, 187, 187, 0.837);
+  --grayShadow: rgba(187, 187, 187, 0.9)
   --white: #ffffff;
 }
 
@@ -87,4 +90,44 @@ li {
 
 footer {
   background-color: gray;
+}
+
+.success {
+  color: var(--green);
+}
+
+.error {
+  color: var(--red);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 10%;
+  margin: 0 auto;
+  padding-right: 20rem;
+  padding-left: .2rem;
+  background-color: var(--gray);
+  box-shadow: 2px 2px var(--gray);
+  border-radius: 5px;
+
+  label {
+    text-align: start;
+  }
+}
+
+#activity-edit {
+  form {
+    width:50%;
+  }
+
+  button {
+    width:20%;
+  }
+}
+
+@media only screen and (max-width: 400px) {
+  form {
+    width: 100%;
+  }
 }

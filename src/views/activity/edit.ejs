@@ -1,13 +1,13 @@
-<section>
+<section id="activity-edit">
   <form action="" method="post">
     <input type="text" name="name" value="<%= activity.name %>" style="font-size: large;">
     <div style="margin-top: 2rem;">
-      <label for="description">Description
-        <textarea name="description" id="description"><%= activity.description %></textarea>
-      </label>
+      <label for="description">Description</label>
+      <br>
+      <textarea name="description" id="description" rows="2" cols="20"><%= activity.description %></textarea>
     </div>
-    <textarea name="details"><%= JSON.stringify(activity.details)  %></textarea>
-    <button>Save</button>
+    <textarea name="details" rows="10" cols="20"><%= JSON.stringify(activity.details)  %></textarea>
+    <button class="big-button">Save</button>
   </form>
 </section>
 <br>
