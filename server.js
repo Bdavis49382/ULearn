@@ -19,6 +19,7 @@ import pgSession from 'connect-pg-simple';
 const PostgresStore = pgSession(session);
 import dbClient from "./src/models/index.js";
 import flashMessages from "./src/middleware/flash-messages.js";
+import { globalErrorHandler, notFoundHandler } from "./src/middleware/error-handler.js";
 
 /**
  * Global Variables
@@ -88,6 +89,10 @@ app.use("/activity/", activityRoute);
 app.use("/class/", classRoute);
 app.use("/admin/", adminRoute);
 
+
+// Error handling middleware.
+app.use(notFoundHandler);
+app.use(globalErrorHandler);
 /**
  * Start the server
  */
