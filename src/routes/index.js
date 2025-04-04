@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { getClasses, getClassesForStudent } from '../models/classes/classes.js';
+import { getLiveActivitiesForStudent } from '../models/activity/activity.js';
 
 const router = Router();
  
@@ -30,7 +31,8 @@ router.get('/', async (req, res) => {
 router.get('/student', async (req, res) => {
     res.locals.requiredPermissions = ['1'];
     const classes = await getClassesForStudent(res.locals.userInfo.id);
-    res.render('student/home', { title: 'Student Home', classes});
+    const activities = await getLiveActivitiesForStudent(res.locals.userInfo.id);
+    res.render('student/home', { title: 'Student Home', classes, activities});
 })
 router.get('/student/profile/:id', async (req,res) => {
     res.locals.requiredPermissions = ['1','2','3'];

@@ -13,8 +13,6 @@ DROP TABLE IF EXISTS public."Courses";
 DROP TABLE IF EXISTS public."Organizations";
 DROP TABLE IF EXISTS public."Roles";
 
-BEGIN;
-
 
 CREATE TABLE IF NOT EXISTS public."Users"
 (
@@ -89,9 +87,10 @@ CREATE TABLE IF NOT EXISTS public."Activities"
 (
     id bigserial,
     course_id bigserial NOT NULL,
-    name character varying(255),
+    name character varying(255) NOT NULL,
     details jsonb,
     order_number integer DEFAULT 0,
+    description character varying(255),
     PRIMARY KEY (id)
 );
 
@@ -101,6 +100,8 @@ CREATE TABLE IF NOT EXISTS public."ActivityProgress"
     activity_id bigserial NOT NULL,
     enrollment_id bigserial NOT NULL,
     details jsonb,
+    completed boolean NOT NULL DEFAULT false,
+    graded boolean NOT NULL DEFAULT false,
     PRIMARY KEY (id)
 );
 
@@ -206,6 +207,8 @@ ALTER TABLE IF EXISTS public."ActivityProgress"
     ON UPDATE NO ACTION
     ON DELETE CASCADE
     NOT VALID;
+
+END;
 
 INSERT INTO public."Organizations"(
 	name)

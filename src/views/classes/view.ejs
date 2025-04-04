@@ -1,1 +1,21 @@
-<h1>Course <%= id %></h1>
+<h1><%= classInfo.course_name  %> <%= classInfo.name %></h1>
+<section>
+    <h2>To Do</h2>
+    <ul>
+        <% activities.filter(a => !a.completed).forEach(activity => { %>
+            <li><a href="/activity/view/<%= activity.id  %>"><%= activity.name  %></a></li>
+        <% }) %>
+    </ul>
+    <h2>Completed</h2>
+    <ul>
+        <% activities.filter(a => a.completed && !a.graded).forEach(activity => { %>
+            <li><%= activity.name  %></li>
+        <% }) %>
+    </ul>
+    <h2>Graded</h2>
+    <ul>
+        <% activities.filter(a => a.graded).forEach(activity => { %>
+            <li><%= activity.name  %></li>
+        <% }) %>
+    </ul>
+</section>

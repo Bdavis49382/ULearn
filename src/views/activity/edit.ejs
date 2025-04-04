@@ -1,5 +1,16 @@
-<h1>Activity <%= id %></h1>
-<a href="/activity/view/<%= id %>" class="big-button">Student View</a>
 <section>
-  <h2>Edit Title</h2>
+  <form action="" method="post">
+    <input type="text" name="name" value="<%= activity.name %>" style="font-size: large;">
+    <div style="margin-top: 2rem;">
+      <label for="description">Description
+        <textarea name="description" id="description"><%= activity.description %></textarea>
+      </label>
+    </div>
+    <textarea name="details"><%= JSON.stringify(activity.details)  %></textarea>
+    <button>Save</button>
+  </form>
 </section>
+<br>
+<div>
+  <a href="/activity/view/<%= activity.id %>" class="big-button">Student View</a>
+</div>

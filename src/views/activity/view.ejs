@@ -1,8 +1,19 @@
-<h1>Activity <%= id %></h1>
-<% if (sectionId){ %>
-    <p>Texboxes and/or multiple choice</p>
-    <a href="/activity/view/<%= id %>/<%= Number(sectionId) + 1 %>" class="big-button">Go to Next Section </a>
+<h1><%= activity.name %></h1>
+<% if (sectionId != -1){ %>
+    <% if (activity.details.sections?.length > sectionId) {%>
+        <p><%= activity.details.sections[sectionId].question %></p>
+        <form action="/activity/view/<%= activity.id %>/<%= sectionId %>" method="post">
+            <% activity.details.sections[sectionId].answers.forEach((answer,i) => { %>
+                <label for="<%= i %>"><%= answer %></label>
+                <input type="radio" name="answer" id="answer" value="<%= i %>">
+            <%}) %>
+            <button href="" class="big-button">Go to Next Section </button>
+        </form>
+    <% } else { %>
+        <p>Sections Completed</p>
+        <a href="/" class="big-button">Leave</a>
+    <%} %>
 <% }else{ %>
-    <p>Explanation of activity</p>
-    <a href="/activity/view/<%= id %>/1" class="big-button">Start Activity</a>
+    <p><%= activity.description  %></p>
+    <a href="/activity/view/<%= activity.id %>/0" class="big-button">Start Activity</a>
 <% } %>

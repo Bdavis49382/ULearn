@@ -1,10 +1,12 @@
-<h1>Course Name</h1>
+<h1><%= course.course_name  %></h1>
 <section>
     <h2>Edit Activities: </h2>
     <ul>
-        <li><a href="/activity/edit/1">Activity 1</a></li>
-        <li><a href="/activity/edit/2">Activity 2</a></li>
+        <% activities.forEach(activity => { %>
+            <li><a href="/activity/edit/<%= activity.id  %>"><%= activity.name  %></a></li>
+        <% }) %>
     </ul>
+    <a class="big-button" href="/activity/create/<%= course.course_id %>">Create New Activity</a>
 </section>
 <section>
     <h2>Students</h2>

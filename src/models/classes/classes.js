@@ -83,6 +83,20 @@ export async function getCourses(organization_id) {
     }
 }
 
+export async function getClass(class_id) {
+    try {
+            const query = `
+                SELECT c.id, c.name, co.name AS course_name, co.id AS course_id FROM public."Classes" AS c
+                INNER JOIN public."Courses" as co ON co.id = c.course_id
+                WHERE c.id = ${class_id}
+            `;
+            return (await dbClient.query(query)).rows;
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+
 export async function createClass(course_id, name, meeting_time, teacher_id) {
     try {
         const query = `

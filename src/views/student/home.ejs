@@ -1,25 +1,21 @@
 <h1>Welcome <%= userInfo?.given_names %>!</h1>
 <section>
-  <h2>Upcoming</h2>
+  <h2>Upcoming Activities</h2>
   <ul>
-    <li><a href="activity/view/1">Activity 1</a></li>
-    <li><a href="activity/view/2">Activity 2</a></li>
-    <li><a href="activity/view/3">Activity 3</a></li>
+    <% activities?.forEach(a => { %>
+      <% if (a.completed == null || (a.completed != null && !a.completed)) { %>
+      <li><a href="activity/view/<%= a.id %>"><%= a.course_name  %>: <%= a.name  %></a></li>
+      <% } %>
+    <% }) %>
   </ul>
 </section>
 <section>
   <h2>Classes</h2>
   <ul>
     <% classes?.forEach(c => { %>
-      <li><a href="class/view/<%= c.id %>"><%= c.course_name  %> A-</a></li>
+      <li><a href="class/view/<%= c.id %>"><%= c.course_name  %></a></li>
     <% }) %>
     <br>
     <a class="big-button" href="/class/add">Add Course</a>
-  </ul>
-</section>
-<section>
-  <h2>Messages</h2>
-  <ul>
-    <li>Teacher: blablalbla</li>
   </ul>
 </section>

@@ -1,11 +1,29 @@
 import { Router } from 'express';
-import { createClass, createCourse, enrollStudent, getAllClasses, getClassesForStudent, getCourses, getStudentsInClass, unenrollStudent } from '../../models/classes/classes.js';
+import { createClass, createCourse, enrollStudent, getAllClasses, getClassesForStudent, getCourses, getStudentsInClass, unenrollStudent, getClass } from '../../models/classes/classes.js';
+import { getActivities, getActivityProgress, getEnrollment } from '../../models/activity/activity.js';
 
 const router = Router();
  
 router.get('/view/:id', async (req, res) => {
     res.locals.requiredPermissions = ['1'];
-    res.render('classes/view', {title: `Course ${req.params.id}`, id:req.params.id});
+    let activities = await getActivities(req.params.id);
+    const classInfo = await getClass(req.params.id);
+    activities = await Promise.all(activities.map(async activity => {
+        const enrollment_data = await getEnrollment(res.locals.userInfo.id, activity.id);
+        if (enrollment_data != undefined && enrollment_data.length > 0) {
+            const enrollment_id = enrollment_data[0].id;
+            const activityProgress = await getActivityProgress(enrollment_id, activity.id);
+            if (activityProgress.length == 0) {
+                return {...activity, graded:false,completed:false};
+            }
+            return {...activity, graded:activityProgress[0].graded, completed:activityProgress[0].completed};
+        }
+        else {
+            console.log(`User ${res.locals.userInfo.id} is not registered for the class with this activity. Not tracking progress.`)
+        }
+    }))
+    console.log(activities)
+    res.render('classes/view', {title: `Course ${req.params.id}`, activities, classInfo:classInfo[0]});
 })
 
 router.get('/add', async (req, res) => {
@@ -31,7 +49,9 @@ router.post('/add', async (req, res) => {
 router.get('/dashboard/:id', async (req, res) => {
     res.locals.requiredPermissions = ['2','3'];
     const students = await getStudentsInClass(req.params.id);
-    res.render('classes/dashboard', {title: "Class Dashboard", students});
+    const course = (await getClass(req.params.id))[0];
+    const activities = await getActivities(req.params.id);
+    res.render('classes/dashboard', {title: "Class Dashboard", students, course, activities});
 })
 
 router.get('/createCourse', async (req,res) => {
