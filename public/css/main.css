@@ -1,4 +1,10 @@
 /* Global Rules */
+:root {
+  --blue: rgba(8, 187, 231, 0.789);
+  --green: rgba(15, 116, 8, 0.742);
+  --shadow: rgb(7, 161, 200);
+  --white: #ffffff;
+}
 
 html {
   font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
@@ -8,17 +14,77 @@ body {
   background-color: aliceblue;
   color: black;
   text-align: center;
+  margin: 0px;
 }
 
 .big-button {
-  background-color: rgba(8, 187, 231, 0.789);
+  background-color: var(--blue);
   text-decoration: none;
   color: black;
   padding: .5rem 1rem;
-  box-shadow: 1px 1px rgb(7, 161, 200);
+  box-shadow: 1px 1px var(--shadow);
   border-radius: 2px;
   border: 0px;
   cursor: pointer;
   margin: 10px;
 }
 
+#home-screen {
+  width: 80%;
+  margin: 0 auto;
+  img {
+    width: 100%;
+    opacity: 20%;
+  }
+  .text-box {
+    position:absolute;
+    top:20vh;
+    left:40vw
+  }
+}
+
+header {
+  display: flex;
+  max-height: 10vh;
+  background-color: rgb(230,230,230);
+
+  img {
+    height:100%;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap:1rem;
+    a {
+      text-decoration: none;
+      background-color: var(--blue);
+      height: 50%;
+      padding: .2rem .5rem .2rem .5rem;
+      border-radius: 5px;
+      color:black;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+}
+
+main {
+  min-height: 90vh;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  a {
+    text-decoration: none;
+    color:var(--green);
+  }
+}
+
+footer {
+  background-color: gray;
+}

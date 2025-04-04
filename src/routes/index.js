@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { getClasses, getClassesForStudent } from '../models/classes/classes.js';
 import { getLiveActivitiesForStudent } from '../models/activity/activity.js';
+import { getStudentProfile } from '../models/auth/auth.js';
 
 const router = Router();
  
@@ -36,7 +37,9 @@ router.get('/student', async (req, res) => {
 })
 router.get('/student/profile/:id', async (req,res) => {
     res.locals.requiredPermissions = ['1','2','3'];
-    res.render('student/profile', { title: 'Student Profile', id:req.params.id});
+    const studentInfo = await getStudentProfile(req.params.id);
+    console.log(studentInfo);
+    res.render('student/profile', { title: 'Student Profile', studentInfo});
 })
 
 router.get('/teacher', async (req, res) => {

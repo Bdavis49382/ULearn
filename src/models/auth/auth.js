@@ -60,3 +60,23 @@ export async function login(email, password) {
         console.log(error);
     }
 }
+
+export async function getStudentProfile(student_id) {
+    try {
+        const query = `
+            SELECT id, given_names, last_name, email FROM public."Users"
+            WHERE id = ${student_id};
+        `
+        const response = await dbClient.query(query);
+        if (response.rows.length == 0) {
+            return null;
+        }
+        else {
+            return response.rows[0];
+        }
+    }
+    catch (error) {
+        console.log(error);
+    }
+
+}

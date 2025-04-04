@@ -49,6 +49,7 @@ const configureStaticPaths = (app) => {
 const getNav = (loggedIn) => {
     const html = `
     <nav>
+      <a href="/">Home</a>
         ${loggedIn ? '<a href="/auth/logout">Logout</a>' : '<a href="/auth/login">Login</a>'}
     </nav>
     `
